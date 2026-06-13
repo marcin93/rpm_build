@@ -1,0 +1,24 @@
+[Unit]
+Description=Hello World - demo application
+Documentation=file:/etc/hello-world/hello-world.conf
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/hello-world.sh
+
+# Logging: stdout/stderr go directly to journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=hello-world
+
+# Restart on any failure (non-zero exit, signal, etc.)
+Restart=on-failure
+RestartSec=5s
+
+# Optional: run as dedicated user for security
+# User=hello-world
+# Group=hello-world
+
+[Install]
+WantedBy=multi-user.target
