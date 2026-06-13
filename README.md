@@ -31,3 +31,22 @@ Structure:
 ```bash
 ./build.sh
 ```
+
+2. at that time you got your package generated
+```bash
+└── dist
+    └── hello-world-1-2.el9.noarch.rpm
+```
+
+3. access container to verify package
+Container by default doesn't run systemd on PID 1 which will make service test fail. Use `rockylinux/rockylinux:9-ubi-init` to get it proper.
+
+```bash
+docker run -d \
+  --name hello-world \
+  --privileged \
+  --cgroupns=host \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+  -v $(pwd)/dist:/rpms \
+  rockylinux/rockylinux:9-ubi-init
+```
